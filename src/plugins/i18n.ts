@@ -6,4 +6,24 @@ export default createI18n({
   fallbackLocale: "en"
 });
 
+export const languageOptions: LangOptionObject[] = [
+  // Fallback first
+  {
+    name: "English",
+    shortName: "EN",
+    value: "en"
+  },
+  {
+    name: "Polski",
+    shortName: "PL",
+    value: "pl"
+  }
+];
+
 export type LangOptions = "pl" | "en";
+
+export type LangOptionObject = {
+  name: string;
+  shortName: string;
+  value: LangOptions;
+};
