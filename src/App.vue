@@ -1,67 +1,80 @@
-<script setup lang="ts">
-import HelloWorld from "@/components/HelloWorld.vue";
-import TheWelcome from "@/components/TheWelcome.vue";
-import { toast } from "vue3-toastify";
-import { useI18n } from "vue-i18n";
-
-const { t } = useI18n();
-
-function showToast() {
-  toast(t("showToast"));
-}
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <v-btn @click="showToast">{{ t("showToast") }}</v-btn>
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <v-app>
+    <StarsBackground>
+      <AppHeader />
+      <!-- Spacer -->
+      <div style="height: 150px" />
+      <v-main>
+        <v-row
+          justify="center"
+          class="mb-4"
+        >
+          <v-col cols="auto">
+            <h1 class="text-title text-h1">{{ t("title") }}</h1>
+          </v-col>
+        </v-row>
+        <PlanetList />
+      </v-main>
+    </StarsBackground>
+  </v-app>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
+<script lang="ts">
+import { defineComponent } from "vue";
+import { useI18n } from "vue-i18n";
+
+import AppHeader from "@/components/AppHeader.vue";
+import PlanetList from "@/components/PlanetList.vue";
+import StarsBackground from "@/components/StarsBackground.vue";
+
+export default defineComponent({
+  name: "App",
+  setup() {
+    const { t, locale } = useI18n();
+    return { t, locale };
+  },
+  components: { StarsBackground, AppHeader, PlanetList },
+  data() {
+    return {};
+  },
+  watch: {
+    locale: {
+      handler() {
+        document.title = this.t("title");
+      },
+      immediate: true
+    }
+  },
+  methods: {}
+});
+</script>
+
+<style lang="scss">
+.text-title {
+  background: -webkit-linear-gradient(white, #38495a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+@media (min-width: 1904px) {
+  .v-container:not(.container--fluid) {
+    max-width: 1280px !important;
+  }
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
+@media (min-width: 960px) {
+  .v-container:not(.container--fluid) {
+    max-width: 1280px !important;
   }
 }
 </style>
-
 <i18n lang="json">
 {
-  "pl": {
-    "showToast": "ToastPL"
-  },
   "en": {
-    "showToast": "ToastEN"
+    "title": "Planet list"
+  },
+  "pl": {
+    "title": "Lista planet"
   }
 }
 </i18n>
