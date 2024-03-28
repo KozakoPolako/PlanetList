@@ -1,13 +1,22 @@
 <script setup lang="ts">
-import HelloWorld from '@/components/HelloWorld.vue'
-import TheWelcome from '@/components/TheWelcome.vue'
+import HelloWorld from "@/components/HelloWorld.vue";
+import TheWelcome from "@/components/TheWelcome.vue";
+import { toast } from "vue3-toastify";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
+
+function showToast() {
+  toast(t("showToast"));
+}
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
     <div class="wrapper">
+      <v-btn @click="showToast">{{ t("showToast") }}</v-btn>
       <HelloWorld msg="You did it!" />
     </div>
   </header>
@@ -45,3 +54,14 @@ header {
   }
 }
 </style>
+
+<i18n lang="json">
+{
+  "pl": {
+    "showToast": "ToastPL"
+  },
+  "en": {
+    "showToast": "ToastEN"
+  }
+}
+</i18n>
