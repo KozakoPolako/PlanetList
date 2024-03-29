@@ -55,7 +55,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "sass:math";
 $stars_width: 2560;
-$stars_height: 10000;
+$stars_height: 20000;
 
 @debug calc(100vh);
 
@@ -68,9 +68,9 @@ $stars_height: 10000;
   @return unquote($value);
 }
 
-$shadows-small: multiple-box-shadow(math.ceil($stars_width * 0.7));
-$shadows-medium: multiple-box-shadow(math.ceil($stars_width * 0.4));
-$shadows-big: multiple-box-shadow(math.ceil($stars_width * 0.2));
+$shadows-small: multiple-box-shadow(math.ceil($stars_width));
+$shadows-medium: multiple-box-shadow(math.ceil($stars_width * 0.7));
+$shadows-big: multiple-box-shadow(math.ceil($stars_width * 0.4));
 
 #background-container {
   z-index: -1;

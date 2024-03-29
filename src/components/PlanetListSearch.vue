@@ -3,6 +3,7 @@
     prepend-inner-icon="mdi-magnify"
     v-model="model"
     variant="outlined"
+    hide-details
     :label="t('label')"
   />
 </template>

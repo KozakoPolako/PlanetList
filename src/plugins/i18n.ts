@@ -1,9 +1,18 @@
 import { createI18n } from "vue-i18n";
+import { en, pl } from "vuetify/locale";
 
 export default createI18n({
   legacy: false,
   locale: navigator.language,
-  fallbackLocale: "en"
+  fallbackLocale: "en",
+  messages: {
+    en: {
+      $vuetify: { ...en }
+    },
+    pl: {
+      $vuetify: { ...pl }
+    }
+  }
 });
 
 export const languageOptions: LangOptionObject[] = [

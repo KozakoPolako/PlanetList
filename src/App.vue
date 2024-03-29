@@ -10,7 +10,7 @@
         class="mb-4"
       >
         <v-col cols="auto">
-          <h1 class="text-title text-h1">{{ t("title") }}</h1>
+          <h1 class="text-title text-h1 text-center">{{ t("title") }}</h1>
         </v-col>
       </v-row>
       <PlanetList />
