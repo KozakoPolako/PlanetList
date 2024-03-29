@@ -1,6 +1,7 @@
 <template>
   <v-app-bar
     flat
+    absolute
     color="transparent"
   >
     <v-container>
