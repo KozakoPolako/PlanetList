@@ -1,21 +1,32 @@
 <template>
-  <div id="background">
-    <div id="background-container">
-      <div id="stars-box">
-        <div id="stars" />
-        <div id="stars2" />
-        <div id="stars3" />
-      </div>
+  <div id="background"></div>
+  <div id="background-container">
+    <div id="stars-box">
+      <div id="stars" />
+      <div
+        ref="stars2"
+        id="stars2"
+      />
+      <div
+        ref="stars3"
+        id="stars3"
+      />
     </div>
-    <slot></slot>
   </div>
+  <slot></slot>
 </template>
 
 <script lang="ts">
+import { ref } from "vue";
 import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "StarsBackground",
+  setup() {
+    const stars2 = ref<HTMLDivElement>();
+    const stars3 = ref<HTMLDivElement>();
+    return { stars2, stars3 };
+  },
   data() {
     return {
       screenSize: {
@@ -24,14 +35,21 @@ export default defineComponent({
       }
     };
   },
-  watch: {
-    screenSize: {
-      handler(val) {}
-    }
+  mounted() {
+    window.addEventListener("scroll", this.onScroll);
   },
-  created() {},
+  beforeUnmount() {
+    window.removeEventListener("scroll", this.onScroll);
+  },
+  methods: {
+    onScroll() {
+      if (!this.stars2 || !this.stars3) return;
 
-  methods: {}
+      const offset = window.scrollY;
+      this.stars2.style.transform = `translateY(-${offset * 0.2}px)`;
+      this.stars3.style.transform = `translateY(-${offset * 0.4}px)`;
+    }
+  }
 });
 </script>
 
@@ -51,20 +69,24 @@ $stars_height: 10000;
   @return unquote($value);
 }
 
-$shadows-small: multiple-box-shadow(math.ceil($stars_width * 0.5));
-$shadows-medium: multiple-box-shadow(math.ceil($stars_width * 0.2));
-$shadows-big: multiple-box-shadow(math.ceil($stars_width * 0.1));
+$shadows-small: multiple-box-shadow(math.ceil($stars_width * 0.7));
+$shadows-medium: multiple-box-shadow(math.ceil($stars_width * 0.4));
+$shadows-big: multiple-box-shadow(math.ceil($stars_width * 0.2));
 
 #background-container {
   display: flex;
   justify-content: center;
 }
 
+:global(html) {
+  scroll-behavior: smooth;
+}
+
 :global(#background) {
+  position: fixed;
   height: 100vh;
   width: 100vw;
   background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
-  overflow: hidden;
 }
 
 #stars-box {
@@ -76,6 +98,7 @@ $shadows-big: multiple-box-shadow(math.ceil($stars_width * 0.1));
   height: 1px;
   background: transparent;
   box-shadow: $shadows-small;
+  transition: transform 200ms linear;
   //animation: animStar 150s linear infinite;
 
   &:after {
@@ -94,6 +117,7 @@ $shadows-big: multiple-box-shadow(math.ceil($stars_width * 0.1));
   height: 2px;
   background: transparent;
   box-shadow: $shadows-medium;
+  transition: transform 100ms ease-out;
   //animation: animStar 100s linear infinite;
 
   &:after {
@@ -112,6 +136,7 @@ $shadows-big: multiple-box-shadow(math.ceil($stars_width * 0.1));
   height: 3px;
   background: transparent;
   box-shadow: $shadows-big;
+  transition: transform 100ms ease-out;
   //animation: animStar 50s linear infinite;
 
   &:after {
