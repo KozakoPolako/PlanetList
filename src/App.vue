@@ -1,21 +1,20 @@
 <template>
-  <v-app>
-    <StarsBackground>
-      <AppHeader />
-      <!-- Spacer -->
-      <div style="height: 150px" />
-      <v-main>
-        <v-row
-          justify="center"
-          class="mb-4"
-        >
-          <v-col cols="auto">
-            <h1 class="text-title text-h1">{{ t("title") }}</h1>
-          </v-col>
-        </v-row>
-        <PlanetList />
-      </v-main>
-    </StarsBackground>
+  <v-app class="bg-transparent">
+    <StarsBackground />
+    <AppHeader />
+    <!-- Spacer -->
+    <div style="height: 150px" />
+    <v-main>
+      <v-row
+        justify="center"
+        class="mb-4"
+      >
+        <v-col cols="auto">
+          <h1 class="text-title text-h1">{{ t("title") }}</h1>
+        </v-col>
+      </v-row>
+      <PlanetList />
+    </v-main>
   </v-app>
 </template>
 

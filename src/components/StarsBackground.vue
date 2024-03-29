@@ -13,7 +13,6 @@
       />
     </div>
   </div>
-  <slot></slot>
 </template>
 
 <script lang="ts">
@@ -74,15 +73,13 @@ $shadows-medium: multiple-box-shadow(math.ceil($stars_width * 0.4));
 $shadows-big: multiple-box-shadow(math.ceil($stars_width * 0.2));
 
 #background-container {
+  z-index: -1;
   display: flex;
   justify-content: center;
 }
 
-:global(html) {
-  scroll-behavior: smooth;
-}
-
-:global(#background) {
+#background {
+  z-index: -1;
   position: fixed;
   height: 100vh;
   width: 100vw;
