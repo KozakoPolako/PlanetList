@@ -1,6 +1,7 @@
 <template>
   <v-app-bar
     flat
+    absolute
     color="transparent"
   >
     <v-container>
@@ -45,8 +46,7 @@ import { defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
 
 import i18n from "@/plugins/i18n";
-import { languageOptions } from "@/plugins/i18n";
-import type { LangOptionObject } from "@/plugins/i18n";
+import { type LangOptionObject, type LangOptions, languageOptions } from "@/plugins/i18n";
 
 export default defineComponent({
   name: "AppHeader",
@@ -85,7 +85,7 @@ export default defineComponent({
       localStorage.setItem("lang", this.currentLang.value);
       this.setLang(this.currentLang.value);
     },
-    setLang(locale: string) {
+    setLang(locale: LangOptions) {
       i18n.global.locale.value = locale;
     }
   }
