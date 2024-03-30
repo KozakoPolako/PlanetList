@@ -16,6 +16,7 @@
                 variant="outlined"
                 color="white"
                 prepend-icon="mdi-earth"
+                class="lang-change-btn"
               >
                 {{ currentLang.shortName }}
               </v-btn>
@@ -42,6 +43,7 @@
 </template>
 
 <script lang="ts">
+import dayjs from "dayjs";
 import { defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
 
@@ -87,12 +89,24 @@ export default defineComponent({
     },
     setLang(locale: LangOptions) {
       i18n.global.locale.value = locale;
+      dayjs.locale(locale);
     }
   }
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.lang-change-btn {
+  border-color: rgba(var(--v-border-color), 0.38);
+  border-width: 1px;
+  transition: border 250ms ease;
+  background-color: rgba(var(--v-theme-surface), 0.4);
+}
+.lang-change-btn:hover {
+  border-width: 2px;
+  border-color: rgba(var(--v-border-color));
+}
+</style>
 <i18n lang="json">
 {
   "en": {

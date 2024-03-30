@@ -3,16 +3,14 @@
     <v-row justify="center">
       <v-col
         cols="12"
-        md="10"
-        lg="8"
+        lg="9"
       >
         <PlanetListSearch
           v-model="search"
           type="search"
-          :loading="loading.data"
         />
         <div style="height: 50px"></div>
-        <v-row>
+        <v-row dense>
           <v-col
             cols="6"
             md="3"
@@ -26,6 +24,7 @@
               :item-title="(item) => t(item.translation_key)"
               variant="outlined"
               density="compact"
+              hide-details
             ></v-select>
           </v-col>
           <v-spacer />
@@ -41,21 +40,53 @@
               :item-title="(item) => t(item.translation_key)"
               variant="outlined"
               density="compact"
+              hide-details
             ></v-select>
           </v-col>
         </v-row>
-        <v-card
+        <v-progress-linear
+          indeterminate
+          :color="loading.data ? 'white' : 'transparent'"
+          class="mb-2"
+        />
+
+        <p
+          v-if="!items.length && !loading.data"
+          class="text-center"
+        >
+          {{ t("$vuetify.noDataText") }}
+        </p>
+        <PlanetListCard
           v-for="planet in items"
           :key="planet.url"
-          class="mb-4"
-        >
-          <v-card-title>{{ planet.name }}</v-card-title>
-          <v-card-text>{{ planet }}</v-card-text>
-        </v-card>
-        <PlanetListLoader
-          v-if="isNextPage"
-          @load-more-records="loadMoreRecord"
+          :planet="planet"
+          class="mb-3 planet-card"
+          :class="{ disabled: paginationType === 'TABLE' && loading.data }"
         />
+        <template v-if="paginationType === 'TABLE'">
+          <PlanetListLoader
+            v-if="!items.length && loading.data"
+            @load-more-records="loadMoreRecord"
+          />
+          <v-row
+            v-if="isDataInited && pageCount > 1"
+            justify="center"
+          >
+            <v-col cols="auto">
+              <v-pagination
+                v-model="pagination.page"
+                :length="pageCount"
+              />
+            </v-col>
+          </v-row>
+        </template>
+        <template v-else>
+          <PlanetListLoader
+            v-if="isNextPage || loading.data"
+            @load-more-records="loadMoreRecord"
+          />
+        </template>
+        <div style="height: 30vh"></div>
       </v-col>
     </v-row>
   </v-container>
@@ -67,13 +98,14 @@ import debounce from "lodash/debounce";
 import { defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
 
+import PlanetListCard from "@/components/PlanetListCard.vue";
 import PlanetListLoader from "@/components/PlanetListLoader.vue";
 import PlanetListSearch from "@/components/PlanetListSearch.vue";
 
 import { type ListFetchOptions, type SwapiPlanet, fetchPlanets } from "@/apis/swapi";
 import { usePagination } from "@/composables/usePagination";
 
-const DEBOUCE_TIME = 500;
+const DEBOUCE_TIME = 300;
 
 const paginationTypes = [
   {
@@ -82,13 +114,13 @@ const paginationTypes = [
   },
   {
     translation_key: "paginationType.table",
-    value: "Table"
+    value: "TABLE"
   }
 ];
 
 export default defineComponent({
   name: "PlanetList",
-  components: { PlanetListSearch, PlanetListLoader },
+  components: { PlanetListSearch, PlanetListLoader, PlanetListCard },
   setup() {
     const { t } = useI18n();
     const { pagination, isNextPage, pageCount } = usePagination(10);
@@ -124,7 +156,10 @@ export default defineComponent({
       this.debounced.loadData();
     },
     search() {
-      this.pagination.page = 1;
+      this.resetPage();
+    },
+    paginationType() {
+      this.resetPage();
     }
   },
   async mounted() {
@@ -147,10 +182,7 @@ export default defineComponent({
     },
     loadMoreRecord() {
       if (this.isDataInited && this.isNextPage) {
-        console.log("append");
         this.pagination.page = this.pagination.page + 1;
-        console.log("page", this.pagination.page);
-        console.log("params", this.fetchParams);
       }
     },
     mapData(planets: SwapiPlanet[]) {
@@ -161,6 +193,9 @@ export default defineComponent({
         case "TABLE":
           return planets;
       }
+    },
+    resetPage() {
+      this.pagination.page = 1;
     }
   }
 });
@@ -169,6 +204,11 @@ type PaginationType = "LIST" | "TABLE";
 </script>
 
 <style lang="scss" scoped>
+.planet-card.disabled {
+  pointer-events: none;
+  opacity: var(--v-disabled-opacity);
+}
+
 .planet-loader :deep(.v-skeleton-loader__bone) {
   border-radius: 4px;
 }
