@@ -8,8 +8,8 @@
         <PlanetListSearch
           v-model="search"
           type="search"
+          class="mb-2"
         />
-        <div style="height: 50px"></div>
         <v-row dense>
           <v-col
             cols="6"
@@ -33,15 +33,11 @@
             md="4"
             lg="3"
           >
-            <v-select
-              :items="paginationTypes"
-              item-value="value"
-              :label="t('sortBy')"
-              :item-title="(item) => t(item.translation_key)"
-              variant="outlined"
-              density="compact"
-              hide-details
-            ></v-select>
+            <PlanetListSort
+              ref="sortRef"
+              v-model="sort"
+              @update:model-value="sortItems"
+            />
           </v-col>
         </v-row>
         <v-progress-linear
@@ -96,11 +92,13 @@
 import type { DebouncedFunc } from "lodash";
 import debounce from "lodash/debounce";
 import { defineComponent } from "vue";
+import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 
 import PlanetListCard from "@/components/PlanetListCard.vue";
 import PlanetListLoader from "@/components/PlanetListLoader.vue";
 import PlanetListSearch from "@/components/PlanetListSearch.vue";
+import PlanetListSort, { type SortItem } from "@/components/PlanetListSort.vue";
 
 import { type ListFetchOptions, type SwapiPlanet, fetchPlanets } from "@/apis/swapi";
 import { usePagination } from "@/composables/usePagination";
@@ -120,11 +118,13 @@ const paginationTypes = [
 
 export default defineComponent({
   name: "PlanetList",
-  components: { PlanetListSearch, PlanetListLoader, PlanetListCard },
+  components: { PlanetListSearch, PlanetListLoader, PlanetListCard, PlanetListSort },
   setup() {
     const { t } = useI18n();
     const { pagination, isNextPage, pageCount } = usePagination(10);
-    return { t, pagination, isNextPage, pageCount };
+    const sortRef = ref<PlanetListSortRef>();
+
+    return { t, pagination, isNextPage, pageCount, sortRef };
   },
   data() {
     return {
@@ -138,7 +138,8 @@ export default defineComponent({
       isDataInited: false,
       debounced: {
         loadData: undefined as DebouncedFunc<() => Promise<void>> | undefined
-      }
+      },
+      sort: undefined as SortItem | undefined
     };
   },
   computed: {
@@ -174,6 +175,7 @@ export default defineComponent({
         const data = await fetchPlanets(this.fetchParams);
         this.items = this.mapData(data.results);
         this.pagination.totalElements = data.count;
+        this.sort = undefined;
       } catch (error) {
         console.error(error);
       } finally {
@@ -196,10 +198,16 @@ export default defineComponent({
     },
     resetPage() {
       this.pagination.page = 1;
+    },
+    sortItems() {
+      if (this.sortRef && this.sort) {
+        this.items = this.sortRef.sortItems(this.items, this.sort.property, this.sort.order);
+      }
     }
   }
 });
 
+type PlanetListSortRef = InstanceType<typeof PlanetListSort> & {};
 type PaginationType = "LIST" | "TABLE";
 </script>
 
@@ -220,16 +228,14 @@ type PaginationType = "LIST" | "TABLE";
     "paginationType": {
       "list": "List",
       "table": "Table"
-    },
-    "sortBy": "Sort by"
+    }
   },
   "pl": {
     "paginationTypeText": "Rodzaj paginacji",
     "paginationType": {
       "list": "Lista",
       "table": "Tabela"
-    },
-    "sortBy": "Sortowanie"
+    }
   }
 }
 </i18n>

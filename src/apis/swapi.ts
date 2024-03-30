@@ -11,7 +11,7 @@ export type SwapiPlanet = {
   population: string;
   climate: string;
   terrain: string;
-  surface_wate: string;
+  surface_water: string;
   residents: string[];
   films: string[];
   url: string;

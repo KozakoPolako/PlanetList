@@ -3,7 +3,6 @@
     v-model="model"
     prepend-inner-icon="mdi-magnify"
     variant="outlined"
-    hide-details
     :label="t('label')"
     v-bind="$attrs"
   />
