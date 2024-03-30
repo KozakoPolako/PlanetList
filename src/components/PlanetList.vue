@@ -82,7 +82,7 @@
             @load-more-records="loadMoreRecord"
           />
         </template>
-        <div style="height: 30vh"></div>
+        <div style="height: 30vh" />
       </v-col>
     </v-row>
   </v-container>

@@ -24,6 +24,9 @@ export default defineComponent({
     const { t } = useI18n();
     return { t };
   },
+  data() {
+    return {};
+  },
   computed: {
     model: {
       get(): string {
@@ -33,9 +36,6 @@ export default defineComponent({
         this.$emit("update:modelValue", val);
       }
     }
-  },
-  data() {
-    return {};
   },
   methods: {}
 });

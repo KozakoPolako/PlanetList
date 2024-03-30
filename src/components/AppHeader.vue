@@ -68,7 +68,7 @@ export default defineComponent({
       this.saveLang();
     }
   },
-  created() {
+  mounted() {
     this.currentLang = this.restoreLang();
     this.setLang(this.currentLang.value);
   },
@@ -109,11 +109,7 @@ export default defineComponent({
 </style>
 <i18n lang="json">
 {
-  "en": {
-    "test": "en"
-  },
-  "pl": {
-    "test": "pl"
-  }
+  "en": {},
+  "pl": {}
 }
 </i18n>

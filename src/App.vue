@@ -2,9 +2,9 @@
   <v-app class="bg-transparent">
     <StarsBackground />
     <AppHeader />
-    <!-- Spacer -->
-    <div style="height: 150px" />
     <v-main>
+      <!-- Spacer -->
+      <div style="height: 150px" />
       <v-row
         justify="center"
         class="mb-4"
@@ -28,11 +28,11 @@ import StarsBackground from "@/components/StarsBackground.vue";
 
 export default defineComponent({
   name: "App",
+  components: { StarsBackground, AppHeader, PlanetList },
   setup() {
     const { t, locale } = useI18n();
     return { t, locale };
   },
-  components: { StarsBackground, AppHeader, PlanetList },
   data() {
     return {};
   },
