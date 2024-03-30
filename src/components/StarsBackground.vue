@@ -4,11 +4,11 @@
     <div id="stars-box">
       <div id="stars" />
       <div
-        ref="stars2"
+        ref="stars2Ref"
         id="stars2"
       />
       <div
-        ref="stars3"
+        ref="stars3Ref"
         id="stars3"
       />
     </div>
@@ -22,17 +22,12 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "StarsBackground",
   setup() {
-    const stars2 = ref<HTMLDivElement>();
-    const stars3 = ref<HTMLDivElement>();
-    return { stars2, stars3 };
+    const stars2Ref = ref<HTMLDivElement>();
+    const stars3Ref = ref<HTMLDivElement>();
+    return { stars2Ref, stars3Ref };
   },
   data() {
-    return {
-      screenSize: {
-        width: window.screen.width,
-        height: window.screen.height
-      }
-    };
+    return {};
   },
   mounted() {
     window.addEventListener("scroll", this.onScroll);
@@ -42,22 +37,22 @@ export default defineComponent({
   },
   methods: {
     onScroll() {
-      if (!this.stars2 || !this.stars3) return;
+      if (!this.stars2Ref || !this.stars3Ref) return;
 
       const offset = window.scrollY;
-      this.stars2.style.transform = `translateY(-${offset * 0.2}px)`;
-      this.stars3.style.transform = `translateY(-${offset * 0.4}px)`;
+      this.stars2Ref.style.transform = `translateY(-${offset * 0.2}px)`;
+      this.stars3Ref.style.transform = `translateY(-${offset * 0.4}px)`;
     }
   }
 });
 </script>
 
 <style lang="scss" scoped>
+// Based on https://codepen.io/sarazond/pen/LYGbwj
 @use "sass:math";
-$stars_width: 2560;
-$stars_height: 20000;
 
-@debug calc(100vh);
+$stars_width: 2800;
+$stars_height: 25000;
 
 @function multiple-box-shadow($n) {
   $value: "#{math.random($stars_width)}px #{math.random($stars_height)}px #FFF";
@@ -68,9 +63,9 @@ $stars_height: 20000;
   @return unquote($value);
 }
 
-$shadows-small: multiple-box-shadow(math.ceil($stars_width));
-$shadows-medium: multiple-box-shadow(math.ceil($stars_width * 0.7));
-$shadows-big: multiple-box-shadow(math.ceil($stars_width * 0.4));
+$shadows-small: multiple-box-shadow(math.ceil($stars_width * 1.3));
+$shadows-medium: multiple-box-shadow(math.ceil($stars_width * 0.9));
+$shadows-big: multiple-box-shadow(math.ceil($stars_width * 0.5));
 
 #background-container {
   z-index: -1;
@@ -96,7 +91,6 @@ $shadows-big: multiple-box-shadow(math.ceil($stars_width * 0.4));
   background: transparent;
   box-shadow: $shadows-small;
   transition: transform 200ms linear;
-  //animation: animStar 150s linear infinite;
 
   &:after {
     content: " ";
@@ -115,7 +109,6 @@ $shadows-big: multiple-box-shadow(math.ceil($stars_width * 0.4));
   background: transparent;
   box-shadow: $shadows-medium;
   transition: transform 100ms ease-out;
-  //animation: animStar 100s linear infinite;
 
   &:after {
     content: " ";
@@ -134,7 +127,6 @@ $shadows-big: multiple-box-shadow(math.ceil($stars_width * 0.4));
   background: transparent;
   box-shadow: $shadows-big;
   transition: transform 100ms ease-out;
-  //animation: animStar 50s linear infinite;
 
   &:after {
     content: " ";
@@ -144,15 +136,6 @@ $shadows-big: multiple-box-shadow(math.ceil($stars_width * 0.4));
     height: 3px;
     background: transparent;
     box-shadow: $shadows-big;
-  }
-}
-
-@keyframes animStar {
-  from {
-    transform: translateY(0px);
-  }
-  to {
-    transform: translateY(-100vh);
   }
 }
 </style>

@@ -16,8 +16,9 @@
           <v-icon
             v-if="icon"
             class="mr-2"
-            >{{ icon }}</v-icon
           >
+            {{ icon }}
+          </v-icon>
           <b>
             {{ title }}
           </b>

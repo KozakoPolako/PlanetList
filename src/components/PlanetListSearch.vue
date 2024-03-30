@@ -3,7 +3,6 @@
     v-model="model"
     prepend-inner-icon="mdi-magnify"
     variant="outlined"
-    hide-details
     :label="t('label')"
     v-bind="$attrs"
   />
@@ -25,6 +24,9 @@ export default defineComponent({
     const { t } = useI18n();
     return { t };
   },
+  data() {
+    return {};
+  },
   computed: {
     model: {
       get(): string {
@@ -34,9 +36,6 @@ export default defineComponent({
         this.$emit("update:modelValue", val);
       }
     }
-  },
-  data() {
-    return {};
   },
   methods: {}
 });
