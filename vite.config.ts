@@ -11,7 +11,13 @@ import { pwaOptions } from "./pwaOptions";
 // https://vitejs.dev/config/
 export default defineConfig({
   base: "/PlanetList",
-  plugins: [vue(), vuetify(), VueDevTools(), VueI18nPlugin({}), VitePWA(pwaOptions)],
+  plugins: [
+    vue(),
+    vuetify({ styles: { configFile: "src/styles/main.scss" } }),
+    VueDevTools(),
+    VueI18nPlugin({}),
+    VitePWA(pwaOptions)
+  ],
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url))
