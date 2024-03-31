@@ -51,6 +51,12 @@ export default defineComponent({
 // Based on https://codepen.io/sarazond/pen/LYGbwj
 @use "sass:math";
 
+$full-height: 100vh;
+
+@supports (height: 100dvh) {
+  $full-height: 100dvh;
+}
+
 $stars_width: 2800;
 $stars_height: 25000;
 
@@ -76,7 +82,7 @@ $shadows-big: multiple-box-shadow(math.ceil($stars_width * 0.5));
 #background {
   z-index: -1;
   position: fixed;
-  height: 100vh;
+  height: $full-height;
   width: 100vw;
   background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
 }
