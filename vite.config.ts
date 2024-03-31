@@ -4,20 +4,13 @@ import { URL, fileURLToPath } from "node:url";
 import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
 import VueDevTools from "vite-plugin-vue-devtools";
-import vuetify from "vite-plugin-vuetify";
 
 import { pwaOptions } from "./pwaOptions";
 
 // https://vitejs.dev/config/
 export default defineConfig({
   base: "/PlanetList",
-  plugins: [
-    vue(),
-    vuetify({ styles: { configFile: "src/styles/main.scss" } }),
-    VueDevTools(),
-    VueI18nPlugin({}),
-    VitePWA(pwaOptions)
-  ],
+  plugins: [vue(), VueDevTools(), VueI18nPlugin({}), VitePWA(pwaOptions)],
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url))
