@@ -102,6 +102,7 @@ import PlanetListSort, { type SortItem } from "@/components/PlanetListSort.vue";
 
 import { type ListFetchOptions, type SwapiPlanet, fetchPlanets } from "@/apis/swapi";
 import { usePagination } from "@/composables/usePagination";
+import { handleError } from "@/utils";
 
 const DEBOUCE_TIME = 300;
 
@@ -177,7 +178,9 @@ export default defineComponent({
         this.pagination.totalElements = data.count;
         this.sort = undefined;
       } catch (error) {
+        this.pagination.totalElements = 0;
         console.error(error);
+        handleError(error, this.t("fetchDataError"));
       } finally {
         this.loading.data = false;
       }
@@ -228,14 +231,16 @@ type PaginationType = "LIST" | "TABLE";
     "paginationType": {
       "list": "List",
       "table": "Table"
-    }
+    },
+    "fetchDataError": "Unable to fetch planet list"
   },
   "pl": {
     "paginationTypeText": "Rodzaj paginacji",
     "paginationType": {
       "list": "Lista",
       "table": "Tabela"
-    }
+    },
+    "fetchDataError": "Nie udało się pobrać listy planet"
   }
 }
 </i18n>
