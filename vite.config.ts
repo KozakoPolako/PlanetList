@@ -5,13 +5,14 @@ import { defineConfig } from "vite";
 import { compression } from "vite-plugin-compression2";
 import { VitePWA } from "vite-plugin-pwa";
 import VueDevTools from "vite-plugin-vue-devtools";
+import vuetify from "vite-plugin-vuetify";
 
 import { pwaOptions } from "./pwaOptions";
 
 // https://vitejs.dev/config/
 export default defineConfig({
   base: "/PlanetList",
-  plugins: [vue(), VueDevTools(), VueI18nPlugin({}), VitePWA(pwaOptions), compression()],
+  plugins: [vue(), vuetify(), VueDevTools(), VueI18nPlugin({}), VitePWA(pwaOptions), compression()],
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url))
