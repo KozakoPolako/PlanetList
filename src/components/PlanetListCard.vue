@@ -155,7 +155,7 @@ export default defineComponent({
   background-color: rgba(var(--v-theme-surface), 0.4);
 }
 .planet-card__content:hover {
-  border-width: 2px;
+  border-width: 1px;
   border-color: rgba(var(--v-border-color));
 }
 </style>
