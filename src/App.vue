@@ -11,8 +11,6 @@
       >
         <v-col cols="auto">
           <h1 class="text-title text-h1 text-center">{{ t("title") }}</h1>
-          <v-btn @click="downloadFile">TEST LINK</v-btn>
-          <v-btn @click="downloadFilePDF">TEST PDF</v-btn>
         </v-col>
       </v-row>
       <PlanetList />
@@ -47,40 +45,7 @@ export default defineComponent({
       immediate: true
     }
   },
-  methods: {
-    async downloadFile() {
-      const link = document.createElement("a");
-      // const response = await fetch(
-      //   new Request(
-      //     "https://documents.ecare.t-mobile.pl/bff/documents/ecare-regulation?locale=en_GB",
-      //     { method: "GET", mode: "no-cors" }
-      //   )
-      // );
-      //console.log(await response);
-      const blob = new Blob([], { type: "application/octet-stream" });
-      link.href = window.URL.createObjectURL(blob);
-      link.download = "TEST.pdf";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    },
-    async downloadFilePDF() {
-      const link = document.createElement("a");
-      // const response = await fetch(
-      //   new Request(
-      //     "https://documents.ecare.t-mobile.pl/bff/documents/ecare-regulation?locale=en_GB",
-      //     { method: "GET", mode: "no-cors" }
-      //   )
-      // );
-      //console.log(await response);
-      const blob = new Blob([], { type: "application/pdf" });
-      link.href = window.URL.createObjectURL(blob);
-      link.download = "TEST.pdf";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-  }
+  methods: {}
 });
 </script>
 
