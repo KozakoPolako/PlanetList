@@ -11,6 +11,7 @@
       >
         <v-col cols="auto">
           <h1 class="text-title text-h1 text-center">{{ t("title") }}</h1>
+          <v-btn @click="downloadFile">TEST LINK</v-btn>
         </v-col>
       </v-row>
       <PlanetList />
@@ -44,7 +45,16 @@ export default defineComponent({
       immediate: true
     }
   },
-  methods: {}
+  methods: {
+    downloadFile() {
+      const link = document.createElement("a");
+      link.href = "https://documents.ecare.t-mobile.pl/bff/documents/ecare-regulation?locale=en_GB";
+      link.download = "TEST.pdf";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  }
 });
 </script>
 
